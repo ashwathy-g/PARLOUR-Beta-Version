@@ -59,6 +59,7 @@ public class SecurityConfig
                                 .requestMatchers("/offer-categories/offer").hasRole("PARLOUR")
                                 .requestMatchers("/offer-categories/{id}").hasRole("PARLOUR")
                                 .requestMatchers("/offer-categories/{id}").hasRole("PARLOUR")
+                                .requestMatchers("/userBill/create").hasRole("PARLOUR")
                                 .requestMatchers("/api/cart/add").hasRole("USER")
                                 .requestMatchers("/orderDetails/createTransaction/{amount}/{userId}").hasRole("USER")
                                 .requestMatchers("/verifypayment/payment").hasRole("USER")

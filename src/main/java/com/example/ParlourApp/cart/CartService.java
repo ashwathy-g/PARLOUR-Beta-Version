@@ -3,6 +3,8 @@ package com.example.ParlourApp.cart;
 import com.example.ParlourApp.employee.EmployeeRepository;
 import com.example.ParlourApp.items.ItemRepository;
 import com.example.ParlourApp.parlour.ParlourRepository;
+import com.example.ParlourApp.userbilling.UserBillingRegModel;
+import com.example.ParlourApp.userbilling.UserBillingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,9 @@ public class CartService
 
     @Autowired
     CartRepository cartRepository;
+
+    @Autowired
+    UserBillingRepository userBillingRepository;
     public List<CartRegModel> addItemToCart(List<CartRegModel> cartItems) {
         List<CartRegModel> addedItems = new ArrayList<>();
 
@@ -72,6 +77,18 @@ public class CartService
             cartItem.setActualPrice(totalPrice);
 
             addedItems.add(cartRepository.save(cartItem));
+
+
+            UserBillingRegModel userBilling = new UserBillingRegModel();
+            userBilling.setUserId(cartItem.getUserId());
+            userBilling.setItemId(cartItem.getItemId());
+            userBilling.setParlourId(cartItem.getParlourId());
+            userBilling.setEmployeeId(cartItem.getEmployeeId());
+            userBilling.setBookingDate(cartItem.getBookingDate());
+            userBilling.setBookingTime(cartItem.getBookingTime());
+            userBilling.setQuantity(cartItem.getQuantity());
+
+            userBillingRepository.save(userBilling);
         }
 
         return addedItems;

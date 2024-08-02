@@ -2,6 +2,8 @@ package com.example.ParlourApp.userbilling;
 
 import com.example.ParlourApp.cart.CartRegModel;
 import com.example.ParlourApp.cart.CartRepository;
+import com.example.ParlourApp.razorPay.OrderDetailsService;
+import com.example.ParlourApp.razorPay.TransactionDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import java.util.List;
 public class UserBillingService {
     @Autowired
     private UserBillingRepository userBillingRepository;
+    @Autowired
+    OrderDetailsService orderDetailsService;
 
     @Autowired
     CartRepository cartRepository;
@@ -39,6 +43,21 @@ public class UserBillingService {
         userBilling.setUniqueId(uniqueId);
         userBilling.setTotalPrice(totalPrice);
         userBilling.setStatus("Pending");
+        TransactionDetails transactionDetails=orderDetailsService.createTransaction(totalPrice.intValue(), cartItems.get(0).getUserId());
+        if(transactionDetails!=null)
+                {
+                    userBilling.setOrderId(transactionDetails.getOrderId());
+                    userBilling.setPaymentId(transactionDetails.getPaymentId());
+
+                }else {
+            throw new RuntimeException("Failed to retrieve transaction details");
+        }
+        userBilling.setBookingDate(cartItems.get(0).getBookingDate());
+        userBilling.setBookingTime(cartItems.get(0).getBookingTime());
+        userBilling.setItemId(cartItems.get(0).getItemId());
+        userBilling.setParlourId(cartItems.get(0).getParlourId());
+        userBilling.setEmployeeId(cartItems.get(0).getEmployeeId());
+        userBilling.setQuantity(cartItems.get(0).getQuantity());
 
         // Set other fields from cartItems if needed
 

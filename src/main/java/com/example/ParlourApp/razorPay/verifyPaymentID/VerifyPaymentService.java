@@ -28,9 +28,12 @@ public class VerifyPaymentService
     }
 
     public boolean verifySignature(String orderId,String paymentId,String signature){
-        String secret = "iOSGwx2YAmHsl2dNuzfi1bSa";
-        String generatedSignature = orderId + " | "+paymentId;
-        generatedSignature = HmacUtils.hmacSha256Hex(secret, generatedSignature);
+
+
+//        String secret = "iOSGwx2YAmHsl2dNuzfi1bSa";
+        String secret = razorpayKeySecret;
+        String data = orderId + " | "+paymentId;
+      String  generatedSignature = HmacUtils.hmacSha256Hex(secret, data);
         return generatedSignature.equals(signature);
     }
 }

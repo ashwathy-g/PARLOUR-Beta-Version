@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class TransactionDetails
 {
     private String orderId;
+    private String paymentId;
     private String currency;
     private Integer amount;
     private String key;
@@ -14,8 +15,9 @@ public class TransactionDetails
     private Long userId;
 
 
-    public TransactionDetails(String orderId, String currency, Integer amount, String key,Long userId) {
+    public TransactionDetails(String orderId, String paymentId,String currency, Integer amount, String key,Long userId) {
         this.orderId = orderId;
+        this.paymentId=paymentId;
         this.currency = currency;
         this.amount = amount;
         this.key = key;
@@ -38,6 +40,15 @@ public class TransactionDetails
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
+
+    public String getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
+    }
+
 
     public String getCurrency() {
         return currency;

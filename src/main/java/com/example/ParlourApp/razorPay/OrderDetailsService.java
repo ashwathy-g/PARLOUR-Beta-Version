@@ -28,12 +28,18 @@ public class OrderDetailsService
 
             RazorpayClient razorpayClient = new RazorpayClient(KEY,Key_Secret);
             Order order = razorpayClient.orders.create(jsonObject);
-            TransactionDetails transactionDetails = prepareTransactionDetails(order,userId);
+            String paymentId="";
+            TransactionDetails transactionDetails = new TransactionDetails(order.get("id"), paymentId, order.get("currency"), order.get("amount"), KEY, userId);
+
+
+
+//            TransactionDetails transactionDetails = prepareTransactionDetails(order,userId);
 
             Optional<UserBillingRegModel> optionalUser = userBillingRepository.findById(userId);
             if (optionalUser.isPresent()){
                 UserBillingRegModel userBillingRegModel = optionalUser.get();
                 userBillingRegModel.setOrderId(transactionDetails.getOrderId());
+                userBillingRegModel.setPaymentId(transactionDetails.getPaymentId());
                 userBillingRepository.save(userBillingRegModel);
             }
             return transactionDetails;
@@ -43,20 +49,20 @@ public class OrderDetailsService
         }
         return null;
     }
-    private TransactionDetails prepareTransactionDetails(Order order,Long userId){
-        try {
-            String orderId = order.get("id");
-            String currency = order.get("currency");
-
-            Integer amount = order.get("amount");
-            String key = order.get("key");
-
-            TransactionDetails transactionDetails = new TransactionDetails(orderId,currency,amount,KEY,userId);
-
-            return transactionDetails;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    private TransactionDetails prepareTransactionDetails(Order order,Long userId){
+//        try {
+//            String orderId = order.get("id");
+//            String currency = order.get("currency");
+//
+//            Integer amount = order.get("amount");
+//            String key = order.get("key");
+//
+//            TransactionDetails transactionDetails = new TransactionDetails(orderId,currency,amount,KEY,userId);
+//
+//            return transactionDetails;
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 }

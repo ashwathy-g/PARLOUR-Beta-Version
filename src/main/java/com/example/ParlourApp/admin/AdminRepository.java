@@ -9,8 +9,5 @@ public interface AdminRepository extends JpaRepository<AdminRegModel,Long> {
     Optional<AdminRegModel> findFirstByAdminName(String adminName);
 
     Optional<AdminRegModel> findByEmailAndPassword(String email, String password);
-
-//    AdminRegModel findByEmailId(@Param("email")String email);
-
     Optional<AdminRegModel> findByEmail(String email);
 }
