@@ -65,7 +65,7 @@ public class SecurityConfig
                                 .requestMatchers("/verifypayment/payment").hasRole("USER")
                                 .requestMatchers("/Items/getAllItems").permitAll()
                                 .requestMatchers("/Items/{itemId}").permitAll()
-
+                                .requestMatchers("/ratings/add").permitAll()
                                 .anyRequest().authenticated())
                 .csrf(csrf->csrf.disable());
 

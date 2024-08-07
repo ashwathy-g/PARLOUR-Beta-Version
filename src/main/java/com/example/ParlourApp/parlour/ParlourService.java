@@ -1,6 +1,6 @@
 package com.example.ParlourApp.parlour;
 
-import com.example.ParlourApp.admin.AdminRegModel;
+import com.example.ParlourApp.Rating.RatingService;
 import com.example.ParlourApp.dto.ParlourDetails;
 import com.example.ParlourApp.employee.EmployeeRegModel;
 import com.example.ParlourApp.employee.EmployeeRepository;
@@ -13,10 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin
 @Service
@@ -31,10 +28,16 @@ public class ParlourService
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
+    private RatingService ratingService;
+    @Autowired
     CustomerUserDetailsService customerUserDetailsService;
 
     @Autowired
     private JwtUtil jwtUtil;
+//    @Autowired
+//    public void setRatingService(RatingService ratingService) {
+//        this.ratingService = ratingService;
+//    }
 
 
     public ParlourRegModel registerParlour(ParlourRegModel parlourRegModel) {
@@ -85,6 +88,8 @@ public class ParlourService
             }
             existingParlour.setRatings(parlourDetails.getRatings());
             existingParlour.setLocation(parlourDetails.getLocation());
+            existingParlour.setLatitude(parlourDetails.getLatitude());
+            existingParlour.setLongitude(parlourDetails.getLongitude());
             existingParlour.setDescription(parlourDetails.getDescription());
             existingParlour.setStatus(0);
 
@@ -110,5 +115,9 @@ public class ParlourService
         return new ParlourDetails(parlour.getParlourName(), parlour.getPhoneNumber(), parlour.getEmail(), employees);
     }
 
+    public List<ParlourRegModel> getAllParlours() {
+    return  parlourRepository.findAll();
+
+    }
 }
 

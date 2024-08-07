@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -33,7 +35,7 @@ public class UserBillingService {
                 .map(CartRegModel::getActualPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // Apply discount if any
+
         if (discount != null) {
             totalPrice = totalPrice.subtract(discount);
         }
@@ -64,4 +66,12 @@ public class UserBillingService {
         return userBillingRepository.save(userBilling);
 
     }
-}
+
+    public List<UserBillingRegModel> getUserBilling() {
+        return userBillingRepository.findAll();
+    }
+
+//    public List<UserBillingRegModel> getUserBillingForLastMonth() {
+//        LocalDate oneMonthAgo = LocalDate.now().minusMonths(1);
+//        return userBillingRepository.findAllByBookingDateAfter(oneMonthAgo.atStartOfDay(ZoneId.systemDefault().systemDefault()).toInstant());
+    }

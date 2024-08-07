@@ -1,29 +1,26 @@
 package com.example.ParlourApp.razorPay;
 
 
+import com.example.ParlourApp.userbilling.UserBillingRegModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin
 public class TransactionDetails
 {
+
+    @Autowired
+    OrderDetailsService orderDetailsService;
     private String orderId;
     private String paymentId;
     private String currency;
     private Integer amount;
     private String key;
-
     private Long userId;
 
-
-    public TransactionDetails(String orderId, String paymentId,String currency, Integer amount, String key,Long userId) {
-        this.orderId = orderId;
-        this.paymentId=paymentId;
-        this.currency = currency;
-        this.amount = amount;
-        this.key = key;
-        this.userId=userId;
-
+    public <T> TransactionDetails(T id, String paymentId, T currency, T amount, String key, Long userId) {
     }
+
     public Long getUserId()
     {
         return userId;

@@ -8,10 +8,6 @@ import com.example.ParlourApp.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.CachingUserDetailsService;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -29,13 +27,16 @@ public class ParlourController {
     private ParlourService parlourService;
 
     @Autowired
-    JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
+
     @Autowired
-    CustomerUserDetailsService customerUserDetailsService;
+    private CustomerUserDetailsService customerUserDetailsService;
+
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
-    ParlourRepository parlourRepository;
+    private ParlourRepository parlourRepository;
 
     @PostMapping("/ParlourReg")
     public ResponseEntity<ParlourRegModel> registerParlour(@RequestParam("parlourName") String parlourName,
@@ -47,16 +48,18 @@ public class ParlourController {
                                                            @RequestParam("licenseImage") MultipartFile licenseImage,
                                                            @RequestParam("ratings") Integer ratings,
                                                            @RequestParam("location") String location,
-                                                           @RequestParam("description") String description)throws IOException {
+                                                           @RequestParam("latitude") Double latitude,
+                                                           @RequestParam("longitude") Double longitude,
+                                                           @RequestParam("description") String description) throws IOException {
         ParlourRegModel parlourRegModel = new ParlourRegModel();
         parlourRegModel.setParlourName(parlourName);
         parlourRegModel.setPhoneNumber(phoneNumber);
         parlourRegModel.setPassword(passwordEncoder.encode(password));
         parlourRegModel.setEmail(email);
-        try(InputStream imageInputStream=image.getInputStream())
-        {
-            byte[]imageBytes=imageInputStream.readAllBytes();
-            parlourRegModel.setImage(image.getBytes());
+
+        try (InputStream imageInputStream = image.getInputStream()) {
+            byte[] imageBytes = imageInputStream.readAllBytes();
+            parlourRegModel.setImage(imageBytes);
         }
 
         parlourRegModel.setLicenseNumber(licenseNumber);
@@ -67,13 +70,13 @@ public class ParlourController {
 
         parlourRegModel.setRatings(ratings);
         parlourRegModel.setLocation(location);
+        parlourRegModel.setLatitude(latitude);
+        parlourRegModel.setLongitude(longitude);
         parlourRegModel.setDescription(description);
-
 
         ParlourRegModel registeredParlour = parlourService.registerParlour(parlourRegModel);
         return ResponseEntity.ok(registeredParlour);
     }
-
 
     @PostMapping("/ParlourLogin")
     public ResponseEntity<Map<String, Object>> login(@RequestBody ParlourLogin parlourLogin) {
@@ -103,12 +106,10 @@ public class ParlourController {
         }
     }
 
-
     @GetMapping("/ParlourStatus/{parlourId}")
     public ResponseEntity<ParlourStatusResponse> getParlourStatus(@PathVariable Long parlourId) {
         ParlourRegModel parlour = parlourService.getParlourById(parlourId);
-        if (parlour!= null) {
-
+        if (parlour != null) {
             String token = ""; // Replace with actual token retrieval logic
             String message = "Status Retrieved Successfully"; // Replace with appropriate message
             Integer status = parlour.getStatus(); // Assuming getStatus() returns Integer
@@ -131,12 +132,18 @@ public class ParlourController {
                                                 @RequestParam(value = "licenseImage", required = false) MultipartFile licenseImage,
                                                 @RequestParam("ratings") Integer ratings,
                                                 @RequestParam("location") String location,
+                                                @RequestParam("latitude") Double latitude,
+                                                @RequestParam("longitude") Double longitude,
                                                 @RequestParam("description") String description,
                                                 @RequestParam("status") Integer status) throws IOException {
-        ParlourRegModel parlourRegModel = new ParlourRegModel();
+        ParlourRegModel parlourRegModel = parlourService.getParlourById(id);
+        if (parlourRegModel == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parlour not found");
+        }
+
         parlourRegModel.setParlourName(parlourName);
         parlourRegModel.setPhoneNumber(phoneNumber);
-        parlourRegModel.setPassword(password);
+        parlourRegModel.setPassword(passwordEncoder.encode(password));
         parlourRegModel.setEmail(email);
         if (image != null) {
             try (InputStream imageInputStream = image.getInputStream()) {
@@ -152,7 +159,9 @@ public class ParlourController {
             }
         }
         parlourRegModel.setRatings(ratings);
-        parlourRegModel. setLocation(location);
+        parlourRegModel.setLocation(location);
+        parlourRegModel.setLatitude(latitude);
+        parlourRegModel.setLongitude(longitude);
         parlourRegModel.setDescription(description);
         parlourRegModel.setStatus(status);
 
@@ -163,13 +172,10 @@ public class ParlourController {
             return ResponseEntity.badRequest().body("Failed to update parlour details");
         }
     }
+
     @GetMapping("/name/{parlourName}")
     public ResponseEntity<ParlourDetails> getParlourDetails(@PathVariable String parlourName) {
         ParlourDetails parlourDetails = parlourService.getParlourDetails(parlourName);
         return ResponseEntity.ok(parlourDetails);
     }
-
 }
-
-
-

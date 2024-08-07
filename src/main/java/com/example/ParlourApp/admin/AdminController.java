@@ -47,20 +47,24 @@ public class AdminController {
         return registeredAdmin == null;
     }
 
-
     @PostMapping(path = "/AdminLogin")
     public ResponseEntity<String> login(@RequestBody AdminRegModel adminRegModel) {
+        log.info("Admin login attempt: {}", adminRegModel.getEmail());
         String userName = adminRegModel.getEmail();
         String password = adminRegModel.getPassword();
 
         UserDetails userDetails = customerUserDetailsService.loadUserByUsername(userName);
         if (passwordEncoder.matches(password, userDetails.getPassword())) {
             String token = jwtUtil.generateToken(userDetails);
+            log.info("Admin login successful: {}", adminRegModel.getEmail());
             return ResponseEntity.ok(token);
         } else {
+            log.warn("Admin login failed: {}", adminRegModel.getEmail());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
+
+
     @GetMapping("/allRegisteredParlour")
     public ResponseEntity<List<ParlourRegModel>> getAllRegisteredParlours() {
         List<ParlourRegModel> parlours = adminService.getAllRegisteredParlours();

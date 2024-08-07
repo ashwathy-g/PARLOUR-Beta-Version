@@ -19,11 +19,15 @@ public class OfferRegModel
     @Column(name = "description")
     private String description;
 
+    @Column(name = "Image")
+    private byte[]Image;
+
     public  OfferRegModel(String name,
-                          String description){
+                          String description, byte[] Image){
         if (description==null){
             this.name = name;
             this.description = description != null? description:"No Details";
+            this.Image=Image;
         }
     }
 

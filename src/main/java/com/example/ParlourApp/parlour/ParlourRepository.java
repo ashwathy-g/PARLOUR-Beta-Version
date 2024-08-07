@@ -1,7 +1,11 @@
 package com.example.ParlourApp.parlour;
 
+import com.example.ParlourApp.dto.Parlour;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ParlourRepository extends JpaRepository<ParlourRegModel,Long>
@@ -14,6 +18,7 @@ public interface ParlourRepository extends JpaRepository<ParlourRegModel,Long>
 
     Optional<ParlourRegModel> findByParlourName(String parlourName);
 
-
-    boolean existsByEmail(String email);
+    List<ParlourRegModel> findByRatingsIsNull();
 }
+
+
