@@ -34,7 +34,6 @@ public class UserController {
     }
 
 
-
     @PostMapping(path = "/UserLogin")
     public ResponseEntity<?> login(@RequestBody UserRegModel userRegModel) {
         UserRegModel authenticatedUser = userService.authenticate(userRegModel.getPhoneNumber(), userRegModel.getPassword());

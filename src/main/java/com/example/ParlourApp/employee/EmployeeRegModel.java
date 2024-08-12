@@ -1,6 +1,7 @@
 package com.example.ParlourApp.employee;
 
 import com.example.ParlourApp.parlour.ParlourRegModel;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -35,6 +36,8 @@ public class EmployeeRegModel
     @CollectionTable(name = "employee_availability", joinColumns = @JoinColumn(name = "employee_id"))
     @Column(name = "available_time_slot")
     private List<String> availableTimeSlots;
+
+
 
 
 

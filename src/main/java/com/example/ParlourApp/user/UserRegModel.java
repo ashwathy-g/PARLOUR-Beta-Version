@@ -2,9 +2,11 @@ package com.example.ParlourApp.user;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
+@CrossOrigin
 @Data
 @Entity
 @Table(name = "USER_REG")

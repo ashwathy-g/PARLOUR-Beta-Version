@@ -33,4 +33,5 @@ public class BookingService
         return bookingRepository.findBookingsWithinDateRange(parlourId, startDate, endDate);
     }
 
+
 }

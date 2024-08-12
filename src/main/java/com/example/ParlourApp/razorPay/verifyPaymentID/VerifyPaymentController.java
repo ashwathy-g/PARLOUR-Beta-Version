@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/verifypayment")
+@RequestMapping(path = "/verifyPayment")
 public class VerifyPaymentController
 {
     @Autowired

@@ -1,7 +1,9 @@
 package com.example.ParlourApp.parlour;
 
 import com.example.ParlourApp.employee.EmployeeRegModel;
+import com.example.ParlourApp.items.ItemRegModel;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +14,6 @@ import java.util.List;
 
 @CrossOrigin
 @Data
-
 @Entity
 @Table(name = "PARLOUR")
 
@@ -65,6 +66,15 @@ public class  ParlourRegModel
     @CollectionTable(name = "parlour_roles", joinColumns = @JoinColumn(name = "parlour_id"))
     @Column(name = "role")
     private List<String> roles = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "parlour", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JsonManagedReference
+//    private List<EmployeeRegModel> employees = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "parlour", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JsonManagedReference
+//    private List<ItemRegModel> items = new ArrayList<>();
+//
 
 
 

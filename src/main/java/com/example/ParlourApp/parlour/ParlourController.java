@@ -1,6 +1,7 @@
 package com.example.ParlourApp.parlour;
 
 import com.example.ParlourApp.dto.ParlourDetails;
+import com.example.ParlourApp.dto.ParlourDetailsDTO;
 import com.example.ParlourApp.dto.ParlourLogin;
 import com.example.ParlourApp.dto.ParlourStatusResponse;
 import com.example.ParlourApp.jwt.CustomerUserDetailsService;
@@ -163,12 +164,25 @@ public class ParlourController {
             return ResponseEntity.badRequest().body("Failed to update parlour details");
         }
     }
-    @GetMapping("/name/{parlourName}")
-    public ResponseEntity<ParlourDetails> getParlourDetails(@PathVariable String parlourName) {
-        ParlourDetails parlourDetails = parlourService.getParlourDetails(parlourName);
-        return ResponseEntity.ok(parlourDetails);
-    }
-
+      @GetMapping("/{id}")
+      public ResponseEntity<List<ParlourDetailsDTO>>getParlourDetails(@PathVariable Long id){
+        try {
+           Optional<ParlourRegModel>parlourRegModelOptional=parlourRepository.findById(id);
+           if (parlourRegModelOptional.isPresent()){
+               return parlourService.getParlourAllDetails(id);
+           }else {
+               return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NOT_FOUND);
+           }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+      @GetMapping("/getAllParlours" )
+      public ResponseEntity<List<ParlourRegModel>> getAllParlours() {
+     List<ParlourRegModel> parlours = parlourService.getAllParlours();
+     return ResponseEntity.ok(parlours);
+}
 }
 
 

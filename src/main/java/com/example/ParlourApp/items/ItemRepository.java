@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ItemRepository extends JpaRepository<ItemRegModel,Long> {
     List<ItemRegModel> findByParlourId(Long parlourId);
+
+    List<ItemRegModel> findByParlourId_Id(Long parlourId);
 }

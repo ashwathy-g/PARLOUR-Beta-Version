@@ -13,8 +13,7 @@ import java.time.LocalTime;
 @Data
 @Entity
 @Table(name = "Items")
-public class ItemRegModel
-{
+public class ItemRegModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -22,33 +21,37 @@ public class ItemRegModel
 
 
     @Column(name = "ItemName")
-    private String ItemName ;
+    private String ItemName;
 
 
-    @Column(name = "ItemImage")
-    private byte[]ItemImage;
+    @Column(name = "ItemImage", columnDefinition = "bytea")
+    private byte[] ItemImage;
 
 
     @Column(name = "Price")
     private BigDecimal Price;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "Category_id",nullable = false)
+    @JoinColumn(name = "Category_id", nullable = false)
     private CategoryRegModel category;
 
     @ManyToOne
-    @JoinColumn(name = "Sub_Category_id",nullable = false)
+    @JoinColumn(name = "Sub_Category_id", nullable = false)
     private SubCategoryRegModel subCategory;
 
 
     @ManyToOne
-    @JoinColumn(name = "Sub_Sub_Category_id",nullable = false)
+    @JoinColumn(name = "Sub_Sub_Category_id", nullable = false)
     private SubSubCategoryRegModel subSubCategory;
 
 
-    @ManyToOne
-    @JoinColumn(name = "Parlour_id",nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "Parlour_id", nullable = false)
     private ParlourRegModel parlour;
+
+    public void setParlour(ParlourRegModel parlour) {
+        this.parlour = parlour;
+    }
 
     @Column(name = "ServiceTime")
     private LocalTime ServiceTime;
@@ -56,27 +59,28 @@ public class ItemRegModel
     @Column(name = "Description")
     private String Description;
 
-    @Column(name="Availability")
+    @Column(name = "Availability")
     private boolean Availability;
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public BigDecimal getActualPrice() {
-        if (Price == null) {
-            return BigDecimal.ZERO; // Set a default value if necessary
-        }
         return Price;
     }
-
-    public void setActualPrice(BigDecimal actualPrice) {
-        this.Price = actualPrice;
+    public Long getCategoryId() {
+        return category != null ? category.getId() : null;
     }
 
+    public Long getSubCategoryId() {
+        return subCategory != null ? subCategory.getId() : null;
+    }
+
+    public Long getSubSubCategoryId() {
+        return subSubCategory != null ? subSubCategory.getId() : null;
+    }
+    public String getAvailability() {
+        return Boolean.toString(Availability);
+    }
+    public void setAvailability(boolean availability) {
+        Availability = availability;
+    }
 }

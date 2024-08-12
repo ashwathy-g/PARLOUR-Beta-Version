@@ -62,10 +62,16 @@ public class SecurityConfig
                                 .requestMatchers("/userBill/create").hasRole("PARLOUR")
                                 .requestMatchers("/api/cart/add").hasRole("USER")
                                 .requestMatchers("/orderDetails/createTransaction/{amount}/{userId}").hasRole("USER")
-                                .requestMatchers("/verifypayment/payment").hasRole("USER")
+                                .requestMatchers("/verifyPayment/payment").hasRole("USER")
                                 .requestMatchers("/Items/getAllItems").permitAll()
                                 .requestMatchers("/Items/{itemId}").permitAll()
-
+                                .requestMatchers("/admin/allRegisteredParlour").permitAll()
+                                .requestMatchers("/parlour/getAllParlours").permitAll()
+                                .requestMatchers("/parlour/{id}").permitAll()
+                                .requestMatchers("/Total bookings/ids").permitAll()
+                                .requestMatchers("/Total bookings/times").permitAll()
+                                .requestMatchers("/Total bookings/prices").permitAll()
+                                .requestMatchers("/Total bookings/statuses").permitAll()
                                 .anyRequest().authenticated())
                 .csrf(csrf->csrf.disable());
 
