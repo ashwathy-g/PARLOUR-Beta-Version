@@ -2,6 +2,7 @@ package com.example.ParlourApp.OfferCategory;
 
 import com.example.ParlourApp.Offers.OfferRegModel;
 import com.example.ParlourApp.Offers.OfferRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class OfferCategoryService
 {
     private final OfferCategoryRepository offerCategoryRepository;

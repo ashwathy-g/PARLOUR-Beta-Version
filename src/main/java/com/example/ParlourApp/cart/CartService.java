@@ -49,6 +49,7 @@ public class CartService
             UserBillingRegModel userBilling = createUserBilling(cartItem, totalPrice);
             log.info("Saving UserBillingRegModel: {}", userBilling);
             userBillingRepository.save(userBilling);
+
         }
 
         return addedItems;

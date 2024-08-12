@@ -53,7 +53,23 @@ public class UserBillingRegModel
 
 
     @Column(name = "status",nullable = false)
-    private String status;
+    private String status="Pending";
+    public UserBillingRegModel(Long userId, String orderId, String paymentId, Long itemId, Long parlourId, Long employeeId, LocalTime bookingTime, LocalDate bookingDate, Integer quantity, BigDecimal totalPrice, String uniqueId, String status) {
+        this.userId = userId;
+        this.orderId = orderId;
+        this.paymentId = paymentId;
+        this.itemId = itemId;
+        this.parlourId = parlourId;
+        this.employeeId = employeeId;
+        this.bookingTime = bookingTime;
+        this.bookingDate = bookingDate;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
+        this.uniqueId = uniqueId;
+        this.status = status;
+    }
 
+    public UserBillingRegModel() {
 
+    }
 }
