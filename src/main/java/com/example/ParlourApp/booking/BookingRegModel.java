@@ -46,9 +46,6 @@ public class BookingRegModel
     private LocalTime bookingTime;
 
 
-
-
-
     }
 
 

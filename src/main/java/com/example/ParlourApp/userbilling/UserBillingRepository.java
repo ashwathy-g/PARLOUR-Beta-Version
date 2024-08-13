@@ -35,4 +35,7 @@ public interface UserBillingRepository extends JpaRepository<UserBillingRegModel
     List<UserBillingRegModel> findByBookingDateBetween(LocalDateTime localDateTime, LocalDateTime localDateTime1);
 
     List<UserBillingRegModel> findAllByBookingDateAfter(Instant instant);
+
+
+
 }

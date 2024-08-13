@@ -32,6 +32,9 @@ public class EmployeeRegModel
     @Column(name = "is_available")
     private Boolean isAvailable;
 
+    @Column(name = "active")
+    private Boolean active;
+
     @ElementCollection
     @CollectionTable(name = "employee_availability", joinColumns = @JoinColumn(name = "employee_id"))
     @Column(name = "available_time_slot")
@@ -45,8 +48,12 @@ public class EmployeeRegModel
         this.employeeName = employeeName;
         this.parlourId = parlour;
     }
-    public EmployeeRegModel(){
+    public boolean isActive() {
+        return active;
+    }
 
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

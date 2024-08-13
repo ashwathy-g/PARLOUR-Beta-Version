@@ -15,7 +15,8 @@ public class OrderDetailController
 
 
     @PreAuthorize("hasRole('USER')")
-    @CrossOrigin(origins = "http://localhost:8080")
+//    (origins = "http://localhost:8080")
+    @CrossOrigin
     @GetMapping("/createTransaction/{amount}/{userId}")
     public ResponseEntity<TransactionDetails> createTransaction(@PathVariable Integer amount, @PathVariable Long userId){
         TransactionDetails transactionDetails = orderDetailService.createTransaction(amount,userId);

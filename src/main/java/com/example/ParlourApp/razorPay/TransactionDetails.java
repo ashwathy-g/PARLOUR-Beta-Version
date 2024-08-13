@@ -2,21 +2,28 @@ package com.example.ParlourApp.razorPay;
 
 
 import com.example.ParlourApp.userbilling.UserBillingRegModel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-@CrossOrigin
+import java.util.List;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TransactionDetails
 {
-
-    @Autowired
-    OrderDetailsService orderDetailsService;
     private String orderId;
     private String paymentId;
     private String currency;
     private Integer amount;
     private String key;
     private Long userId;
+
+    @Autowired
+    OrderDetailsService orderDetailsService;
 
     public <T> TransactionDetails(T id, String paymentId, T currency, T amount, String key, Long userId) {
     }
@@ -71,4 +78,7 @@ public class TransactionDetails
         this.key = key;
     }
 
+    public List<UserBillingRegModel> findRecentTransactions() {
+   return  null;
+    }
 }

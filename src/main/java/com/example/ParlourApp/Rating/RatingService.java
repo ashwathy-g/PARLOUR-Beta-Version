@@ -32,7 +32,7 @@ public class RatingService {
         RatingModel rating = new RatingModel();
         rating.setParlour(parlour);
         rating.setCustomerName(customerName);
-        rating.setCustomerRating(ratingValue);
+        rating.setRatingValue(ratingValue);
         rating.setReview(review);
         return ratingRepository.save(rating);
     }
@@ -68,4 +68,6 @@ public class RatingService {
                 .filter(parlour -> !ratedParlourIds.contains(parlour.getId()))
                 .collect(Collectors.toList());
     }
+
+
 }

@@ -21,8 +21,8 @@ public class RatingModel {
     @Column(name = "customer_name", nullable = false)
     private String customerName;
 
-    @Column(name = "customerRating", nullable = false)
-    private int customerRating;
+    @Column(name = "RatingValue", nullable = false)
+    private int ratingValue;
 
     @Column(name = "review", nullable = false)
     private String review;
@@ -32,7 +32,7 @@ public class RatingModel {
     }
 
     public int getRatingValue() {
-        return customerRating;
+        return ratingValue;
     }
 }
 
